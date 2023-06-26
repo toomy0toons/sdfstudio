@@ -5,9 +5,9 @@ FROM nvidia/cudagl:11.3.1-devel
 ## Set non-interactive to prevent asking for user inputs blocking image creation.
 ENV DEBIAN_FRONTEND=noninteractive
 ## Set timezone as it is required by some packages.
-ENV TZ=Europe/Berlin
+ENV TZ=Seoul/Korea
 ## CUDA architectures, required by tiny-cuda-nn.
-ENV TCNN_CUDA_ARCHITECTURES=86
+ENV TCNN_CUDA_ARCHITECTURES=80
 ## CUDA Home, required to find CUDA in some packages.
 ENV CUDA_HOME="/usr/local/cuda"
 
@@ -60,7 +60,7 @@ RUN git clone --branch 2.1.0 https://ceres-solver.googlesource.com/ceres-solver.
     git checkout $(git describe --tags) && \
     mkdir build && \
     cd build && \
-    cmake .. -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF && \
+    cmake .. -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF -DCUDA_NVCC_FLAGS="--std c++14" && \
     make -j && \
     make install && \
     cd ../.. && \
@@ -102,9 +102,10 @@ RUN chown -R user:user /home/user/nerfstudio
 USER 1000:1000
 
 # Install nerfstudio dependencies.
+# downgrade pymeshlab -> 2021.10 to match qt 5.12
 RUN cd nerfstudio && \
     python3.8 -m pip install -e . && \
-    cd ..
+    cd .. && ls -la
 
 # Change working directory
 WORKDIR /workspace

@@ -264,10 +264,10 @@ if __name__ == "__main__":
     parser.add_argument("--crop-mult", dest="crop_mult", type=int, default=1,
                         help="image size will be resized to crop_mult*384, only take effect when enabling mono-prior")
     parser.add_argument("--omnidata-path", dest="omnidata_path",
-                        default="<YOUR_DIR>/omnidata/omnidata_tools/torch",
+                        default="/home/tomlee/3d-data/omnidata/omnidata_tools/torch",
                         help="path to omnidata model")
     parser.add_argument("--pretrained-models", dest="pretrained_models",
-                        default="<YOUR_DIR>/omnidata_tools/torch/pretrained_models/",
+                        default="/home/tomlee/3d-data/omnidata/omnidata_tools/torch/pretrained_models",
                         help="path to pretrained models")
 
     args = parser.parse_args()
